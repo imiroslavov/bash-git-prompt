@@ -40,7 +40,7 @@ function update_git_variables {
     GIT_ADDED=$(git status -s --porcelain | egrep -v "^\?\?" | grep -E "^.{0,1}A" | wc -l)
     GIT_DELETED=$(git status -s --porcelain | egrep -v "^\?\?" | grep -E "^.{0,1}D" | wc -l)
     GIT_UNTRACKED=$(git status -s --porcelain | egrep "^\?\?" | wc -l)
-    GIT_CONFLICTS=$(git status -s --porcelain | egrep -v "^\?\?" | grep -E "^.{0,1}U" | wc -l)
+    GIT_CONFLICTING=$(git status -s --porcelain | egrep -v "^\?\?" | grep -E "^.{0,1}U" | wc -l)
     GIT_BRANCH=$(git branch | grep -e "^\*" | awk '{print $2}')
     GIT_STASH=$(git stash list | wc -l)
 
@@ -63,11 +63,12 @@ function create_git_prompt {
 
         GIT_PROMPT="${PROMPT_PS1}${GIT_PROMPT_PREFIX}${GIT_PROMPT_BRANCH}${GIT_BRANCH}${GIT_BRANCH_STATUS}${GIT_PROMPT_COLOR_NONE}${GIT_PROMPT_SUFFIX}"
 
-        append_to_prompt ${GIT_MODIFIED}  "M" ${GIT_PROMPT_MODIFIED}
-        append_to_prompt ${GIT_UNTRACKED} "N" ${GIT_PROMPT_UNTRACKED}
-        append_to_prompt ${GIT_ADDED}     "A" ${GIT_PROMPT_ADDED}
-        append_to_prompt ${GIT_DELETED}   "D" ${GIT_PROMPT_DELETED}
-        append_to_prompt ${GIT_STASH}     "S" ${GIT_PROMPT_STASH}
+        append_to_prompt ${GIT_MODIFIED}    "M" ${GIT_PROMPT_MODIFIED}
+        append_to_prompt ${GIT_UNTRACKED}   "N" ${GIT_PROMPT_UNTRACKED}
+        append_to_prompt ${GIT_ADDED}       "A" ${GIT_PROMPT_ADDED}
+        append_to_prompt ${GIT_DELETED}     "D" ${GIT_PROMPT_DELETED}
+        append_to_prompt ${GIT_CONFLICTING} "C" ${GIT_PROMPT_CONFLICTING}
+        append_to_prompt ${GIT_STASH}       "S" ${GIT_PROMPT_STASH}
 
         export PS1="${GIT_PROMPT}${PROMPT_SUFFIX}\$ "
     else
