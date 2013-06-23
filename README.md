@@ -2,6 +2,7 @@ bash-git-prompt
 ===============
 
 An informative and fancy bash prompt for Git users
+
 NOTE: this code is written as quick as possible... use at your own risk
 
 ## Example
@@ -23,15 +24,15 @@ By default, the general appearance of the prompt is:
 `[<branch><branch tracking>][<local status>]`
 
 * Local Status
-** `M:n` there are `n` changed/modified files
-** `N:n` there are `n` untracked/new files
-** `A:n` there are `n` added files
-** `D:n` there are `n` deleted files
-** `C:n` there are `n` conflicting files
-** `S:n` there are `n` stashes
+  * `M:n` there are `n` changed/modified files
+  * `N:n` there are `n` untracked/new files
+  * `A:n` there are `n` added files
+  * `D:n` there are `n` deleted files
+  * `C:n` there are `n` conflicting files
+  * `S:n` there are `n` stashes
 * Branch Tracking
-** `+n` ahead of remote by `n` commits
-** `-n` behind remote by `n` commits
+  * `+n` ahead of remote by `n` commits
+  * `-n` behind remote by `n` commits
 
 ## Instalation
 
@@ -44,7 +45,7 @@ make install
 ### Uninstalling
 ```
 cd bash-git-prompt
-make install
+make clean
 ```
 
 ## Configuration
