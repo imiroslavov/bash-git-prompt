@@ -9,6 +9,7 @@ GIT_PROMPT_DIR=./bash_git
 . "${BASH_DIR}/${GIT_PROMPT_DIR}/bash_git_config.sh"
 
 DEFAULT_PS1="${PS1}"
+#@TODO: Get last character of PS1 (# for root, $ for users) and append it to the customized prompt
 PROMPT_PS1=$(echo "${DEFAULT_PS1}" | sed 's/ *//g')
 
 function init_prompt {
@@ -36,6 +37,8 @@ function update_git_branch_status {
 }
 
 function update_git_variables {
+    update_git_branch_status
+
     GIT_MODIFIED=$(git status -s --porcelain | egrep -v "^\?\?" | grep -E "^.{0,1}[RM]" | wc -l)
     GIT_ADDED=$(git status -s --porcelain | egrep -v "^\?\?" | grep -E "^.{0,1}A" | wc -l)
     GIT_DELETED=$(git status -s --porcelain | egrep -v "^\?\?" | grep -E "^.{0,1}D" | wc -l)
@@ -43,8 +46,7 @@ function update_git_variables {
     GIT_CONFLICTING=$(git status -s --porcelain | egrep -v "^\?\?" | grep -E "^.{0,1}U" | wc -l)
     GIT_BRANCH=$(git branch | grep -e "^\*" | awk '{print $2}')
     GIT_STASH=$(git stash list | wc -l)
-
-    update_git_branch_status
+    GIT_PROMPT="${PROMPT_PS1}${GIT_PROMPT_PREFIX}${GIT_PROMPT_BRANCH}${GIT_BRANCH}${GIT_BRANCH_STATUS}${GIT_PROMPT_COLOR_NONE}${GIT_PROMPT_SUFFIX}"
 }
 
 function append_to_prompt {
@@ -60,8 +62,6 @@ function create_git_prompt {
     if $(git ls-files ./ --error-unmatch >/dev/null 2>/dev/null); then
         init_prompt
         update_git_variables
-
-        GIT_PROMPT="${PROMPT_PS1}${GIT_PROMPT_PREFIX}${GIT_PROMPT_BRANCH}${GIT_BRANCH}${GIT_BRANCH_STATUS}${GIT_PROMPT_COLOR_NONE}${GIT_PROMPT_SUFFIX}"
 
         append_to_prompt ${GIT_MODIFIED}    "M" ${GIT_PROMPT_MODIFIED}
         append_to_prompt ${GIT_UNTRACKED}   "N" ${GIT_PROMPT_UNTRACKED}
