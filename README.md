@@ -13,7 +13,7 @@ The prompt may look like the following:
 * `[master][M:1, A:1]`: on branch `master`, 1 file modified, 1 file added
 * `[master][M:1, N:2]`: on branch `master`, 1 file modified, 2 files untracked/new
 * `[test][D:3, C:1]`: on branch `test`, 3 files deleted, 1 file conflicting
-* `[master][S:1]`: on branch `master`, 1 file modified, 2 files untracked/new
+* `[master][S:1]`: on branch `master`, 1 stash
 * `[master+2]`: on branch `master`, ahead of remote by 2 commits
 * `[master-1]`: on branch `master`, behind remote by 1 commit
 
