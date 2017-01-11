@@ -47,7 +47,7 @@ create_prompt() {
 
 		export PS1=$FORMAT
 	else
-		export PS1=$DEFAULT_PS1
+		export PS1="$DEFAULT_PS1\\$ "
 	fi
 }
 
