@@ -40,9 +40,9 @@ create_prompt() {
 	if [ -d ".git" ] && $(git rev-parse --is-inside-work-tree 2>/dev/null); then
 		local FORMAT=""
 		if [ $PROMPT_MILTILINE -eq 1 ]; then
-			FORMAT="$(generate_prompt)\n$DEFAULT_PS1"
+			FORMAT="$(generate_prompt)\n$DEFAULT_PS1\\$ "
 		else
-			FORMAT="$CLEAN_PS1 $(generate_prompt)\$ "
+			FORMAT="$CLEAN_PS1$(generate_prompt)\\$ "
 		fi
 
 		export PS1=$FORMAT

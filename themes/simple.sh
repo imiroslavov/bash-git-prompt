@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DEFAULT_PS1="\u@\h:\w\$ "
+DEFAULT_PS1="\u@\h:\w"
 
 #%B% - branch name
 #%+% - commits ahead
@@ -12,7 +12,7 @@ DEFAULT_PS1="\u@\h:\w\$ "
 #%D% - deleted files
 #%C% - conflicts
 
-PROMPT_FORMAT="(%B%%-%%+%)[÷%S%±%M%+%U%·%A%-%D%×%C%]"
+PROMPT_FORMAT="[%B%%-%%+%][÷%S%±%M%+%U%·%A%-%D%×%C%]"
 
 #%+% - commits ahead format
 PROMPT_FORMAT_AHEAD="↑%N%"
@@ -20,4 +20,3 @@ PROMPT_FORMAT_AHEAD="↑%N%"
 #%-% - commits behind format
 PROMPT_FORMAT_BEHIND="↓%N%"
 
-PROMPT_MILTILINE=0

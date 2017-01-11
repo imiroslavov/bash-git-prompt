@@ -1,3 +1,4 @@
 #!/bin/bash
 
 PROMPT_THEME=simple
+PROMPT_MILTILINE=1
