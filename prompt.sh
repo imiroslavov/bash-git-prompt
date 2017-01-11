@@ -4,6 +4,7 @@
 [ -z "$PS1" ] && return
 
 . "$(dirname ${BASH_SOURCE[0]})/config.sh"
+. "$(dirname ${BASH_SOURCE[0]})/themes/$PROMPT_THEME.sh"
 
 CLEAN_PS1=$(echo "$DEFAULT_PS1" | sed "s/ *//g")
 
