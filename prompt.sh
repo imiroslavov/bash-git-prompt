@@ -9,16 +9,18 @@
 CLEAN_PS1=$(echo "$DEFAULT_PS1" | sed "s/ *//g")
 
 generate_prompt() {
-	local PROMPT=$PROMPT_FORMAT;
-	local STATUS=$(git rev-list --count --left-right "@{upstream}"...HEAD);
+	local PROMPT=$PROMPT_FORMAT
+	local STATUS=$(git status -s --porcelain)
 	
 	PROMPT=$(echo $PROMPT | sed "s/%B%/$(git branch | grep -e '^\*' | awk '{print $2}')/")
-	PROMPT=$(echo $PROMPT | sed "s/%M%/$(git status -s --porcelain | egrep -v '^\?\?' | grep -E '^.{0,1}[RM]' | wc -l)/")
-	PROMPT=$(echo $PROMPT | sed "s/%A%/$(git status -s --porcelain | egrep -v '^\?\?' | grep -E '^.{0,1}A' | wc -l)/")
-	PROMPT=$(echo $PROMPT | sed "s/%D%/$(git status -s --porcelain | egrep -v '^\?\?' | grep -E '^.{0,1}D' | wc -l)/")
-	PROMPT=$(echo $PROMPT | sed "s/%U%/$(git status -s --porcelain | egrep '^\?\?' | wc -l)/")
-	PROMPT=$(echo $PROMPT | sed "s/%C%/$(git status -s --porcelain | egrep -v '^\?\?' | grep -E '^.{0,1}U' | wc -l)/")
+	PROMPT=$(echo $PROMPT | sed "s/%M%/$(printf -- '%s\n' "${STATUS[@]}" | egrep -v '^\?\?' | grep -E '^.{0,1}[RM]' | wc -l)/")
+	PROMPT=$(echo $PROMPT | sed "s/%A%/$(printf -- '%s\n' "${STATUS[@]}" | egrep -v '^\?\?' | grep -E '^.{0,1}A' | wc -l)/")
+	PROMPT=$(echo $PROMPT | sed "s/%D%/$(printf -- '%s\n' "${STATUS[@]}" | egrep -v '^\?\?' | grep -E '^.{0,1}D' | wc -l)/")
+	PROMPT=$(echo $PROMPT | sed "s/%U%/$(printf -- '%s\n' "${STATUS[@]}" | egrep '^\?\?' | wc -l)/")
+	PROMPT=$(echo $PROMPT | sed "s/%C%/$(printf -- '%s\n' "${STATUS[@]}" | egrep -v '^\?\?' | grep -E '^.{0,1}U' | wc -l)/")
 	PROMPT=$(echo $PROMPT | sed "s/%S%/$(git stash list | wc -l)/")
+
+	local STATUS=$(git rev-list --count --left-right "@{upstream}"...HEAD)
 
 	PROMPT=$(echo $PROMPT | sed "s/%+%/$(get_branch_status $(echo $STATUS | awk '{print $2}') $PROMPT_FORMAT_AHEAD)/")
 	PROMPT=$(echo $PROMPT | sed "s/%-%/$(get_branch_status $(echo $STATUS | awk '{print $1}') $PROMPT_FORMAT_BEHIND)/")
