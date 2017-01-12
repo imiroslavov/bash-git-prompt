@@ -1,4 +1,4 @@
 #!/bin/bash
 
-PROMPT_THEME=simple
+PROMPT_THEME=slack
 PROMPT_MILTILINE=1
