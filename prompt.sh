@@ -42,6 +42,10 @@ get_branch_name() {
 	local BRANCH=$(echo $1 | sed -n 's/## \(.*\)\.\.\.\(.*\)/\1/p')
 
 	if [[ ! $BRANCH ]]; then
+		BRANCH=$(echo $1 | sed -n 's/## \(.*\)$/\1/p')
+	fi
+
+	if [[ ! $BRANCH ]]; then
 		BRANCH=$(echo $1 | sed -n 's/## HEAD (\(.*\))/\1/p')
 	fi
 
