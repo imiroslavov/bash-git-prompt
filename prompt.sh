@@ -6,7 +6,9 @@
 . "$(dirname ${BASH_SOURCE[0]})/config.sh"
 . "$(dirname ${BASH_SOURCE[0]})/themes/$PROMPT_THEME.sh"
 
-CLEAN_PS1=$(echo "$DEFAULT_PS1" | sed "s/ *//g")
+CLEAN_PS1=$(echo "$DEFAULT_PS1" | sed 's/ *//g')
+
+declare -a BRANCH_PATTERNS=( 's/^## \(.*\)$/\1/p' 's/^## HEAD (\(.*\))$/\1/p' 's/^## Initial commit on \(.*\)$/\1/p' 's/^## \(.*\)\.\.\.\(.*\)$/\1/p' )
 
 generate_prompt() {
 	local PROMPT=$PROMPT_FORMAT
@@ -39,19 +41,14 @@ get_branch_status() {
 }
 
 get_branch_name() {
-	local BRANCH=$(echo $1 | sed -n 's/## \(.*\)\.\.\.\(.*\)/\1/p')
+	local BRANCH=""
+	local INDEX=$(( ${#BRANCH_PATTERNS[@]} - 1 ))
 
-	if [[ ! $BRANCH ]]; then
-		BRANCH=$(echo $1 | sed -n 's/## \(.*\)$/\1/p')
-	fi
+	while ( [[ ! $BRANCH ]] && [ $INDEX -ge 0 ] ); do
+		BRANCH=$(echo $1 | sed -n "${BRANCH_PATTERNS[$INDEX]}")
 
-	if [[ ! $BRANCH ]]; then
-		BRANCH=$(echo $1 | sed -n 's/## HEAD (\(.*\))/\1/p')
-	fi
-
-	if [[ ! $BRANCH ]]; then
-		BRANCH=$(echo $1 | sed -n 's/## Initial commit on \(.*\)/\1/p')
-	fi
+		((INDEX--))
+	done
 
 	echo $BRANCH
 }
