@@ -13,9 +13,11 @@ declare -a BRANCH_PATTERNS=( 's/^## \(.*\)$/\1/p' 's/^## HEAD (\(.*\))$/\1/p' 's
 generate_prompt() {
 	local PROMPT=$PROMPT_FORMAT
 	local STATUS=$(git status --branch --porcelain)
-	local BRANCH_INFO=$(printf -- '%s\n' "${STATUS[@]}" | head -1)
 
-	PROMPT=$(echo $PROMPT | sed "s/%B%/$(get_branch_name "$BRANCH_INFO")/")
+	local BRANCH_INFO=$(printf -- '%s\n' "${STATUS[@]}" | head -1)
+	local BRANCH_NAME=$(get_branch_name "$BRANCH_INFO")
+
+	PROMPT=$(echo $PROMPT | sed "s!%B%!${BRANCH_NAME}!")
 	PROMPT=$(echo $PROMPT | sed "s/%M%/$(printf -- '%s\n' "${STATUS[@]}" | egrep -v '^\?\?' | grep -E '^.{0,1}[RM]' | wc -l)/")
 	PROMPT=$(echo $PROMPT | sed "s/%A%/$(printf -- '%s\n' "${STATUS[@]}" | egrep -v '^\?\?' | grep -E '^.{0,1}A' | wc -l)/")
 	PROMPT=$(echo $PROMPT | sed "s/%D%/$(printf -- '%s\n' "${STATUS[@]}" | egrep -v '^\?\?' | grep -E '^.{0,1}D' | wc -l)/")
