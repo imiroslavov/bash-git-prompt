@@ -33,7 +33,7 @@ generate_prompt() {
 
 get_branch_status() {
 	local RESULT=""
-	local COUNT=$(echo $1 | sed -n "s/.*$3 \([0-9]\).*/\1/p")
+	local COUNT=$(echo $1 | sed -n "s/.*$3 \([0-9]\+\).*/\1/p")
 
 	if [ ${#COUNT} -gt 0 ]; then
 		RESULT=$(echo $2 | sed "s/%N%/$COUNT/")
